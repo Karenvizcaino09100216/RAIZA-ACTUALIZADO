@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAIZA — Portal</title>
+<link rel="icon" href="raiza-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="dashboard.css">
+<link rel="stylesheet" href="portal.css">
+<style id="rz-diseno">
+/* ===== Diseño del panel anterior: paneles planos, tablas y etiquetas (sin sombras ni emojis) ===== */
+.db-content .panel,.tarjeta-modulo-item,.tarjeta-ajustes,.tarjeta-curso,.tarjeta-panel-dashboard{background:#fff;border:1px solid var(--db-line);border-radius:12px;box-shadow:none;}
+.tarjeta-curso{padding:20px;gap:10px;transition:none;}
+.tarjeta-curso:hover{transform:none;box-shadow:none;border-color:var(--db-line);}
+.tarjeta-icono{width:44px;height:44px;border-radius:10px;font-size:1.35rem;background:var(--db-olive-100);color:var(--db-olive-ink);}
+.tarjeta-curso h3{font-family:'Fraunces',serif;font-size:1.05rem;color:var(--db-heading);}
+.tarjeta-modulo-item{padding:18px;gap:12px;}
+.tarjeta-modulo-item .modulo-item-titulo,.tarjeta-ajustes h3{font-family:'Fraunces',serif;color:var(--db-heading);}
+.nivel-badge,.badge-pendiente,.badge-entregada,.badge-info,.badge-proximamente,.estado-en-camino,.estado-pendiente,.estado-pagado,.estado-entregado,.estado-rechazado{border-radius:6px;padding:3px 10px;font-size:.75rem;font-weight:600;letter-spacing:0;}
+.nivel-badge,.badge-proximamente{background:var(--db-gold-100);color:var(--db-gold-ink);}
+.kit-precio{color:var(--db-heading);font-size:1.2rem;}
+.kit-footer-card{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:4px;}
+.btn-comprar-kit{background:var(--coral-500);}
+.btn-comprar-kit:hover{background:var(--coral-600);}
+.catalogo-grid{margin-top:0;gap:16px;}
+.titulo-nivel-tarea{font-family:'Fraunces',serif;font-size:1.02rem;border-left:0;padding:0 0 8px;margin:26px 0 14px;border-bottom:1px solid var(--db-line);color:var(--db-heading);}
+.tabs-niveles{background:var(--db-gray-50);border:1px solid var(--db-line);}
+.btn-nivel.activo-nivel{box-shadow:none;border:1px solid var(--db-line);}
+.aviso-integracion-box{border:1px solid var(--db-line);background:#fff;border-radius:12px;padding:34px 24px;margin-top:0;}
+.aviso-icono{width:48px;height:48px;border-radius:12px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:var(--db-olive-100);color:var(--db-olive-ink);}
+.aviso-titulo{font-family:'Fraunces',serif;color:var(--db-heading);}
+.video-no-disponible span{display:flex;justify-content:center;font-size:1.8rem;}
+.comentario-caja{background:var(--db-gray-50);border-left:0;border:1px solid var(--db-line);border-radius:10px;}
+.lista-dashboard{gap:0;}
+.lista-dashboard li{background:none;border:0;border-bottom:1px solid var(--db-line);border-radius:0;padding:11px 2px;border-left:0 !important;}
+.lista-dashboard li:last-child{border-bottom:0;}
+.lista-dashboard .item-vacio{color:var(--db-gray-500);font-size:.88rem;}
+.item-alerta{color:var(--db-coral-ink);}
+.db-panel form label{display:block;margin:14px 0 5px;font-size:.78rem;font-weight:600;color:var(--db-gray-700);}
+.db-panel form label:first-of-type{margin-top:0;}
+.db-panel > h3{margin-bottom:16px;}
+.contenedor{gap:18px;}
+.accesos{display:flex;flex-direction:column;gap:10px;}
+.accesos .btn{width:100%;text-align:center;text-decoration:none;}
+.meta-fila{font-size:.8rem;color:var(--db-gray-700);margin-bottom:2px;}
+.meta-fila.suave{color:var(--db-gray-500);}
+.db-table select{width:auto;padding:6px 8px;border:1px solid var(--db-line);border-radius:8px;font-size:.82rem;background:#fff;}
+table.db-table td[title]{max-width:260px;}
+table.db-table td.col-acciones{max-width:none;overflow:visible;}
+.db-stat-icon .ic{width:1em;height:1em;}
+.aviso-icono .ic,.tarjeta-icono .ic{width:1em;height:1em;}
+.modal-cerrar{display:flex;align-items:center;justify-content:center;}
+
+/* ===== Barra lateral: color según la paleta RAIZA (regla 60-30-10) =====
+   60% base  : verde oliva profundo (degradado monocromático, mismo matiz, solo cambia la luminosidad)
+   30% apoyo : arena y verde claro (neutros análogos al oliva) para texto, títulos e iconos
+   10% acento: coral (opuesto cálido al verde) SOLO para lo activo, para que destaque */
+.db-sidebar{--sb-sand:247,244,230;--sb-olive:195,205,151;background:linear-gradient(180deg,#4c5433 0%,#363c26 100%);padding:18px 12px;gap:2px;scrollbar-width:thin;scrollbar-color:rgba(195,205,151,.28) transparent;}
+.db-sidebar::-webkit-scrollbar-thumb{background:rgba(195,205,151,.28);}
+.db-brand{gap:12px;padding:4px 6px 18px;margin-bottom:6px;border-bottom:1px solid rgba(var(--sb-olive),.16);}
+.db-brand img{filter:none;box-sizing:border-box;width:42px;height:42px;padding:7px;border-radius:12px;background:#f7f4e6;opacity:1;}
+.db-brand strong{color:#f7f4e6;font-size:1.08rem;letter-spacing:.04em;}
+/* Cada grupo del menú es una tarjeta con su propio fondo */
+.db-nav-group{margin-top:10px;padding:10px 8px 8px;background:rgba(var(--sb-sand),.055);border:1px solid rgba(var(--sb-olive),.13);border-radius:14px;}
+.db-nav-group--solo{padding:8px;}
+.db-nav-group-title{font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;font-weight:700;color:rgb(var(--sb-olive));opacity:1;padding:0 8px 8px;}
+/* Mismo tamaño de letra e iconos en todos los botones */
+.db-nav-item,.db-nav-item.sidebar-btn{font:500 .875rem/1.25 'Inter',sans-serif;padding:7px 10px;border-radius:10px;gap:12px;color:rgba(var(--sb-sand),.78);transition:background .18s,color .18s,transform .18s;}
+.db-nav-item .ico{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.05rem;opacity:1;background:rgba(var(--sb-olive),.12);color:rgb(var(--sb-olive));transition:background .18s,color .18s;}
+.db-nav-item .ico .ic{width:1em;height:1em;}
+.db-nav-item:hover{background:rgba(var(--sb-sand),.08);color:rgb(var(--sb-sand));transform:translateX(2px);}
+.db-nav-item:hover .ico{background:rgba(var(--sb-olive),.22);color:#f7f4e6;}
+.db-nav-item:focus-visible{outline:2px solid #e08f6f;outline-offset:2px;}
+/* Activo: único lugar con el acento coral (barra + icono) sobre un fondo arena translúcido */
+.db-nav-item.active,.db-nav-item.activo{background:rgba(var(--sb-sand),.1);color:#f7f4e6;font-weight:600;box-shadow:none;transform:none;}
+.db-nav-item.active::before,.db-nav-item.activo::before{display:block;content:"";position:absolute;left:-9px;top:9px;bottom:9px;width:4px;border-radius:0 4px 4px 0;background:#e08f6f;}
+.db-nav-item.active .ico,.db-nav-item.activo .ico{background:#c05f42;color:#fff;opacity:1;}
+.db-sidebar-foot{margin:auto 2px 0;padding:14px;border:1px solid rgba(var(--sb-olive),.16);border-radius:12px;background:rgba(var(--sb-sand),.05);font-size:.78rem;color:rgb(var(--sb-olive));}
+
+/* ===== Grupos del menú plegables (clic en el título: Aprendizaje, Mi cuenta, Clases…) ===== */
+button.db-nav-group-title{display:flex;align-items:center;justify-content:space-between;width:calc(100% + 0px);background:none;border:0;cursor:pointer;text-align:left;font-family:inherit;border-radius:8px;transition:color .18s,background .18s;}
+button.db-nav-group-title:hover{color:#f7f4e6;background:rgba(var(--sb-sand),.06);}
+button.db-nav-group-title:focus-visible{outline:2px solid #e08f6f;outline-offset:2px;}
+.db-nav-group-title .db-chev{display:inline-flex;font-size:.95rem;transition:transform .2s ease;}
+.db-nav-group.cerrado .db-nav-group-title{padding-bottom:2px;}
+.db-nav-group.cerrado .db-chev{transform:rotate(-90deg);}
+.db-nav-items[hidden]{display:none;}
+.db-nav-items{animation:dbAbrir .2s ease;}
+@keyframes dbAbrir{from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:none;}}
+
+/* ===== Menú contraíble (escritorio): queda solo la barra de iconos ===== */
+.db-sidebar{transition:width .25s ease,padding .25s ease;}
+@media (min-width:901px){
+  .db-menu-toggle{display:inline-flex;}
+  body.sb-colapsado .db-sidebar{width:84px;padding-left:10px;padding-right:10px;}
+  body.sb-colapsado .db-brand{justify-content:center;padding:4px 0 16px;}
+  body.sb-colapsado .db-brand > span{display:none;}
+  body.sb-colapsado .db-nav-group{padding:8px 6px;}
+  body.sb-colapsado .db-nav-group-title{display:none;}
+  body.sb-colapsado .db-nav-items[hidden]{display:block;}
+  body.sb-colapsado .db-nav-item,body.sb-colapsado .db-nav-item.sidebar-btn{font-size:0;gap:0;justify-content:center;padding:6px 0;}
+  body.sb-colapsado .db-nav-item:hover{transform:none;}
+  body.sb-colapsado .db-nav-item.active::before,body.sb-colapsado .db-nav-item.activo::before{left:-7px;}
+  body.sb-colapsado .db-sidebar-foot{display:none;}
+}
+</style>
+
+</head>
+<body class="db-body">
+
+<aside class="db-sidebar" id="sidebar">
+  <a href="portal.html" class="db-brand" id="brandPortal" title="Ir a mi portal">
+    <img src="raiza-icon.png" alt="RAIZA">
+    <div id="brandTexto"></div>
+  </a>
+  <div id="navRol" style="display:flex;flex-direction:column;gap:2px;"></div>
+  <div class="db-sidebar-foot" id="footRol"></div>
+</aside>
+
+<div class="db-main">
+  <header class="db-topbar">
+    <button class="db-menu-toggle" id="menuToggle" aria-label="Abrir menú" data-ic="menu"></button>
+    <div class="db-spacer"></div>
+    <div class="db-topbar-right">
+      <a href="index.html" class="db-topbar-link"><i data-ic="external-link"></i> Ver sitio</a>
+      <div class="db-user">
+        <img class="avatar" id="imgPerfilSidebar" alt="">
+        <div class="meta"><strong id="topbarNombre">—</strong><span id="topbarRol">—</span></div>
+      </div>
+      <a href="#" class="db-logout" id="logoutBtn">Cerrar sesión</a>
+    </div>
+  </header>
+  <div class="db-content" id="contenidoRol"></div>
+</div>
+
+<div id="modalesRol"></div>
+
+<!-- ===== Plantillas por rol (solo se activa la del rol que inició sesión) ===== -->
+<template id="tpl-admin">
+<div data-parte="nav">
+<div class="db-nav-group db-nav-group--solo">
+<button class="db-nav-item sidebar-btn activo" onclick="cambiarSeccion('resumen', this)"><span class="ico" data-ic="house"></span> Inicio</button>
+</div>
+<div class="db-nav-group"><div class="db-nav-group-title">Gestión de usuarios</div>
+<button class="db-nav-item sidebar-btn" onclick="cambiarSeccion('usuarios', this)"><span class="ico" data-ic="users"></span> Gestión de usuarios</button>
+<button class="db-nav-item" data-target="Administrador"><span class="ico" data-ic="shield-check"></span> Administradores</button>
+<button class="db-nav-item" data-target="Instructor"><span class="ico" data-ic="presentation"></span> Instructores</button>
+<button class="db-nav-item" data-target="Estudiante"><span class="ico" data-ic="graduation-cap"></span> Estudiantes</button>
+</div>
+<div class="db-nav-group"><div class="db-nav-group-title">Contenido académico</div>
+<button class="db-nav-item" data-target="Tematica"><span class="ico" data-ic="tag"></span> Temáticas</button>
+<button class="db-nav-item" data-target="Modulo"><span class="ico" data-ic="layers"></span> Módulos</button>
+<button class="db-nav-item" data-target="Leccion"><span class="ico" data-ic="book-open"></span> Lecciones</button>
+<button class="db-nav-item" data-target="Tarea"><span class="ico" data-ic="clipboard-list"></span> Tareas</button>
+</div>
+<div class="db-nav-group"><div class="db-nav-group-title">Seguimiento</div>
+<button class="db-nav-item" data-target="EntregaTarea"><span class="ico" data-ic="file-check"></span> Entregas de tareas</button>
+<button class="db-nav-item" data-target="Progreso"><span class="ico" data-ic="trending-up"></span> Progreso por módulo</button>
+<button class="db-nav-item" data-target="ProgresoLeccion"><span class="ico" data-ic="chart-line"></span> Progreso por lección</button>
+</div>
+<div class="db-nav-group"><div class="db-nav-group-title">Clases</div>
+<button class="db-nav-item" data-target="ClasesEnVivo"><span class="ico" data-ic="video"></span> Clases en vivo</button>
+<button class="db-nav-item" data-target="ClaseParticipante"><span class="ico" data-ic="user-round-check"></span> Participantes</button>
+</div>
+<div class="db-nav-group"><div class="db-nav-group-title">Tienda</div>
+<button class="db-nav-item sidebar-btn" onclick="cambiarSeccion('pedidos', this)"><span class="ico" data-ic="package"></span> Pedidos de kits</button>
+<button class="db-nav-item" data-target="ClassKit"><span class="ico" data-ic="backpack"></span> Kits de clase</button>
+<button class="db-nav-item" data-target="Compra"><span class="ico" data-ic="credit-card"></span> Compras</button>
+</div>
+<div class="db-nav-group db-nav-group--solo">
+<button class="db-nav-item" data-target="Certificado"><span class="ico" data-ic="award"></span> Certificados</button>
+<button class="db-nav-item" data-target="Notificacion"><span class="ico" data-ic="bell"></span> Notificaciones</button>
+</div>
+</div>
+<div data-parte="brand"><span><strong>RAIZA</strong><span>PANEL DE ADMINISTRACIÓN</span></span></div>
+<div data-parte="foot">Cuidamos la plataforma que forma a nuestros artesanos</div>
+<div data-parte="main">
+
+<!-- RESUMEN -->
+<div id="resumen" class="seccion-dashboard activa">
+  <div class="db-content-title"><h1>Inicio</h1><p>Vista rápida de las cuentas registradas en la plataforma.</p></div>
+  <div class="db-stats">
+    <div class="db-stat-card"><div class="db-stat-icon ic-blue" data-ic="users"></div><div><div class="db-stat-label">Total usuarios</div><div class="db-stat-value" id="statTotalUsuarios">—</div></div></div>
+    <div class="db-stat-card"><div class="db-stat-icon ic-green" data-ic="graduation-cap"></div><div><div class="db-stat-label">Estudiantes</div><div class="db-stat-value" id="statEstudiantes">—</div></div></div>
+    <div class="db-stat-card"><div class="db-stat-icon ic-purple" data-ic="presentation"></div><div><div class="db-stat-label">Instructores</div><div class="db-stat-value" id="statInstructores">—</div></div></div>
+    <div class="db-stat-card"><div class="db-stat-icon ic-red" data-ic="shield-check"></div><div><div class="db-stat-label">Administradores</div><div class="db-stat-value" id="statAdmins">—</div></div></div>
+  </div>
+</div>
+
+<!-- GESTIÓN DE USUARIOS -->
+<div id="usuarios" class="seccion-dashboard">
+  <div class="db-content-title"><h1>Gestión de usuarios</h1><p>Registra cuentas, asigna roles y administra su estado.</p></div>
+  <div class="contenedor">
+    <div class="db-panel">
+      <h3 id="tituloFormulario">Registrar Usuario</h3>
+      <form id="formRegistro">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" required>
+        <label for="correo">Correo</label>
+        <input type="email" id="correo" required>
+        <label for="contrasena">Contraseña</label>
+        <input type="password" id="contrasena" required autocomplete="new-password">
+        <label for="rol">Rol</label>
+        <select id="rol">
+          <option value="Estudiante">Estudiante</option>
+          <option value="Instructor">Instructor</option>
+          <option value="Administrador">Administrador</option>
+        </select>
+        <button type="submit" id="btnGuardar" class="btn btn-coral" style="margin-top:18px;width:100%;">Guardar usuario</button>
+        <button type="button" id="btnCancelar" class="btn btn-outline btn-sm" style="margin-top:10px;width:100%;display:none;">Cancelar edición</button>
+      </form>
+    </div>
+    <div class="db-panel">
+      <div class="db-panel-head"><h3>Lista de usuarios</h3><button id="btnCargar" class="btn btn-outline btn-sm">Actualizar</button></div>
+      <div class="db-tabla-scroll">
+        <table id="tablaUsuarios" class="db-table">
+          <thead><tr><th>ID</th><th>Nombre</th><th>Correo</th><th>Rol</th><th>Estado</th><th>Acciones</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PEDIDOS DE KITS -->
+<div id="pedidos" class="seccion-dashboard">
+  <div class="db-content-title"><h1>Pedidos de kits</h1><p>Actualiza el estado de cada pedido (Enviado, Entregado, Cancelado…) para ir desbloqueando los módulos de los estudiantes.</p></div>
+  <div class="db-panel">
+    <div class="db-panel-head"><h3>Solicitudes recibidas</h3><button class="btn btn-outline btn-sm" onclick="cargarPedidos()">Actualizar</button></div>
+    <div class="db-tabla-scroll">
+      <table id="tablaPedidos" class="db-table">
+        <thead><tr><th>Pedido</th><th>Kit</th><th>Estudiante</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div>
+<div data-parte="modals">
+
+</div>
+</template>
+<template id="tpl-instructor">
+<div data-parte="nav">
+<div class="db-nav-group db-nav-group--solo">
+<button class="db-nav-item sidebar-btn activo" onclick="cambiarSeccion('resumen', this)"><span class="ico" data-ic="house"></span> Inicio</button>
+</div>
+<div class="db-nav-group"><div class="db-nav-group-title">Seguimiento</div>
+<button class="db-nav-item sidebar-btn" onclick="cambiarSeccion('revision', this)"><span class="ico" data-ic="file-check"></span> Revisar tareas</button>
+<button class="db-nav-item sidebar-btn" onclick="cambiarSeccion('estudiantes', this)"><span class="ico" data-ic="graduation-cap"></span> Mis estudiantes</button>
+<button class="db-nav-item" data-target="Progreso"><span class="ico" data-ic="trending-up"></span> Progreso por módulo</button>
+<button class="db-nav-item" data-target="ProgresoLeccion"><span class="ico" data-ic="chart-line"></span> Progreso por lección</button>
+</div>
+<div class="db-nav-group"><div class="db-nav-group-title">Contenido</div>
+<button class="db-nav-item" data-target="Tematica"><span class="ico" data-ic="tag"></span> Temáticas</button>
+<button class="db-nav-item" data-target="Modulo"><span class="ico" data-ic="layers"></span> Mis módulos</button>
+<button class="db-nav-item" data-target="Leccion"><span class="ico" data-ic="book-open"></span> Lecciones</button>
+<button class="db-nav-item" data-target="Tarea"><span class="ico" data-ic="clipboard-list"></span> Tareas</button>
+<button class="db-nav-item sidebar-btn" onclick="cambiarSeccion('modulos', this)"><span class="ico" data-ic="layers"></span> Módulos impartidos</button>
+</div>
+<div class="db-nav-group"><div class="db-nav-group-title">Clases</div>
+<button class="db-nav-item" data-target="ClasesEnVivo"><span class="ico" data-ic="video"></span> Clases en vivo</button>
+<button class="db-nav-item" data-target="ClaseParticipante"><span class="ico" data-ic="user-round-check"></span> Participantes</button>
+</div>
+<div class="db-nav-group db-nav-group--solo">
+<button class="db-nav-item" data-target="Certificado"><span class="ico" data-ic="award"></span> Certificados</button>
+<button class="db-nav-item" data-target="Notificacion"><span class="ico" data-ic="bell"></span> Notificaciones</button>
+</div>
+</div>
+<div data-parte="brand"><span><strong>RAIZA</strong><span>PANEL DE INSTRUCTOR</span></span></div>
+<div data-parte="foot">Gracias por formar a nuestros artesanos</div>
+<div data-parte="main">
+
+<!-- RESUMEN -->
+<div id="resumen" class="seccion-dashboard activa">
+  <div class="db-hero">
+    <div>
+      <h2 id="tituloBienvenida">Hola, Instructor</h2>
+      <p>Este es el estado de las entregas de tus estudiantes y de tu grupo.</p>
+    </div>
+  </div>
+  <div class="db-stats">
+    <div class="db-stat-card"><div class="db-stat-icon ic-green" data-ic="graduation-cap"></div><div><div class="db-stat-label">Estudiantes</div><div class="db-stat-value" id="statEstudiantes">—</div></div></div>
+    <div class="db-stat-card"><div class="db-stat-icon ic-red" data-ic="file-check"></div><div><div class="db-stat-label">Entregas por revisar</div><div class="db-stat-value" id="statPendientes">—</div></div></div>
+    <div class="db-stat-card"><div class="db-stat-icon ic-blue" data-ic="circle-check"></div><div><div class="db-stat-label">Entregas calificadas</div><div class="db-stat-value" id="statCalificadas">—</div></div></div>
+  </div>
+  <div class="db-panel">
+    <div class="db-panel-head"><h3>Entregas pendientes de calificar</h3>
+        <span class="db-link" style="cursor:pointer;" onclick="cargarEntregasDesdeServidor(); cambiarSeccion('revision', document.querySelectorAll('.sidebar-btn')[1]);">Ver todas <i data-ic="chevron-right"></i></span></div>
+      <div id="listaEntregasResumen"><p class="cargando">Cargando…</p></div>
+    </div>
+</div>
+
+<!-- REVISAR TAREAS -->
+<div id="revision" class="seccion-dashboard">
+  <div class="db-content-title"><h1>Revisar tareas</h1><p>Califica las entregas de tus estudiantes. Al aprobar, el progreso del estudiante se actualiza automáticamente.</p></div>
+  <div class="db-panel">
+    <div class="db-tabla-scroll">
+      <table class="db-table">
+        <thead><tr><th>Estudiante</th><th>Tarea</th><th>Enviada</th><th>Estado</th><th>Comentario</th><th>Acciones</th></tr></thead>
+        <tbody id="gridEntregas"><tr><td colspan="6" class="cargando">Cargando…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- MIS ESTUDIANTES -->
+<div id="estudiantes" class="seccion-dashboard">
+  <div class="db-content-title"><h1>Mis estudiantes</h1><p>Listado de los estudiantes registrados en la plataforma.</p></div>
+  <div class="db-panel">
+    <div class="db-tabla-scroll">
+      <table class="db-table">
+        <thead><tr><th>ID</th><th>Nombre</th><th>Correo</th><th>Estado</th></tr></thead>
+        <tbody id="tablaEstudiantes"><tr><td colspan="4" class="cargando">Cargando…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- MÓDULOS IMPARTIDOS -->
+<div id="modulos" class="seccion-dashboard">
+  <div class="db-content-title"><h1>Módulos impartidos</h1><p>Programas que guías en la especialidad de Alambrismo. Los datos son de ejemplo; pronto se conectarán a tu información real.</p></div>
+  <div class="db-panel">
+    <div class="db-panel-head"><h3>Mis módulos</h3><span class="pill pill-gold">Próximamente</span></div>
+    <div class="module-row"><div class="module-num">1</div><div class="module-info"><div class="name">Fundamentos de Alambrismo</div><div class="meta-fila">Anillos sencillos, pulseras de nudos y manejo básico de herramientas.</div><div class="meta-fila suave">6 estudiantes · Semana 1-4</div></div><span class="pill pill-green">Básico</span></div>
+    <div class="module-row"><div class="module-num">2</div><div class="module-info"><div class="name">Técnicas de Engaste</div><div class="meta-fila">Engaste de gota, dijes entrelazados y acabados de precisión.</div><div class="meta-fila suave">5 estudiantes · Semana 5-8</div></div><span class="pill pill-blue">Intermedio</span></div>
+    <div class="module-row"><div class="module-num">3</div><div class="module-info"><div class="name">Proyectos de Alta Tensión</div><div class="meta-fila">Aretes geométricos y colgantes escultóricos con piedras.</div><div class="meta-fila suave">3 estudiantes · Semana 9-12</div></div><span class="pill pill-purple">Avanzado</span></div>
+  </div>
+</div>
+
+</div>
+<div data-parte="modals">
+<!-- MODAL CALIFICAR ENTREGA -->
+    <div id="modalCalificar" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-cerrar" onclick="cerrarModalCalificar()"><span data-ic="x"></span></button>
+            <h3 class="modal-titulo">Calificar entrega</h3>
+
+            <label for="notaCalificacion">Nota (0 a 5):</label>
+            <input type="number" id="notaCalificacion" min="0" max="5" step="0.1" placeholder="Ej: 4.5">
+
+            <label for="comentarioCalificacion">Retroalimentación para el estudiante (opcional):</label>
+            <textarea id="comentarioCalificacion" rows="3" placeholder="Ej: Excelente técnica de engaste, cuida el pulido final..."></textarea>
+
+            <div class="modal-acciones" style="display: flex; gap: 10px; margin-top: 14px;">
+                <button type="button" class="btn-peligro" style="flex: 1;" onclick="cerrarModalCalificar()">Cancelar</button>
+                <button type="button" style="flex: 1;" onclick="guardarCalificacionModal()">Guardar Nota</button>
+            </div>
+        </div>
+    </div>
+</div>
+</template>
+<template id="tpl-estudiante">
+<div data-parte="nav">
+<div class="db-nav-group db-nav-group--solo">
+<button class="db-nav-item sidebar-btn activo" onclick="cambiarSeccion('resumen', this)"><span class="ico" data-ic="house"></span> Inicio</button>
+</div>
+<div class="db-nav-group"><div class="db-nav-group-title">Mi cuenta</div>
+<button class="db-nav-item sidebar-btn" onclick="cambiarSeccion('perfil', this)"><span class="ico" data-ic="user-round-check"></span> Mi perfil</button>
+</div>
+<div class="db-nav-group"><div class="db-nav-group-title">Aprendizaje</div>
+<button class="db-nav-item sidebar-btn" onclick="cambiarSeccion('modulos', this)"><span class="ico" data-ic="book-open"></span> Mis módulos</button>
+<button class="db-nav-item sidebar-btn" onclick="cambiarSeccion('tareas', this)"><span class="ico" data-ic="clipboard-list"></span> Entregas y proyectos</button>
+<button class="db-nav-item" data-target="Progreso"><span class="ico" data-ic="trending-up"></span> Mi progreso</button>
+<button class="db-nav-item" data-target="ProgresoLeccion"><span class="ico" data-ic="chart-line"></span> Progreso por lección</button>
+</div>
+<div class="db-nav-group"><div class="db-nav-group-title">Clases</div>
+<button class="db-nav-item" data-target="ClasesEnVivo"><span class="ico" data-ic="video"></span> Clases en vivo</button>
+<button class="db-nav-item" data-target="calendario-full"><span class="ico" data-ic="calendar"></span> Calendario</button>
+</div>
+<div class="db-nav-group"><div class="db-nav-group-title">Tienda y logros</div>
+<button class="db-nav-item sidebar-btn" onclick="cambiarSeccion('kits', this)"><span class="ico" data-ic="package"></span> Catálogo de ClassKits</button>
+<button class="db-nav-item sidebar-btn" onclick="cambiarSeccion('certificados', this)"><span class="ico" data-ic="award"></span> Mis certificados</button>
+</div>
+<div class="db-nav-group db-nav-group--solo">
+<button class="db-nav-item" data-target="Notificacion"><span class="ico" data-ic="bell"></span> Notificaciones</button>
+</div>
+</div>
+<div data-parte="brand"><span><strong>RAIZA</strong><span>PORTAL DEL ESTUDIANTE</span></span></div>
+<div data-parte="foot">Cada pieza empieza con una primera vuelta de alambre</div>
+<div data-parte="main">
+<!-- RESUMEN -->
+<div id="resumen" class="seccion-dashboard activa">
+  <div class="db-hero">
+    <div>
+      <h2>Hola, <span id="heroNombre">—</span></h2>
+      <p>Sigue avanzando: cada proyecto que entregas te acerca a tu certificado.</p>
+    </div>
+    <div class="db-hero-course">
+      <div class="lbl">Tu avance</div>
+      <div class="name">Plan de estudios RAIZA</div>
+      <div class="progress-row">
+        <div class="progress-track"><div class="progress-fill" id="barraProgreso" style="width:0%;"></div></div>
+        <span class="progress-pct" id="textoProgreso">0%</span>
+      </div>
+    </div>
+  </div>
+  <div class="db-stats">
+    <div class="db-stat-card"><div class="db-stat-icon ic-red" data-ic="clipboard-list"></div><div><div class="db-stat-label">Proyectos pendientes</div><div class="db-stat-value" id="statTareasPend">—</div></div></div>
+    <div class="db-stat-card"><div class="db-stat-icon ic-green" data-ic="file-check"></div><div><div class="db-stat-label">Proyectos entregados</div><div class="db-stat-value" id="statTareasEnt">—</div></div></div>
+    <div class="db-stat-card"><div class="db-stat-icon ic-blue" data-ic="layers"></div><div><div class="db-stat-label">Total de proyectos</div><div class="db-stat-value" id="statTareasTotal">—</div></div></div>
+  </div>
+  <div class="db-grid-2">
+    <div class="db-panel">
+      <div class="db-panel-head"><h3>Proyectos pendientes</h3></div>
+      <ul class="lista-dashboard" id="listaTareasResumen"></ul>
+    </div>
+    <div>
+      <div class="db-panel">
+        <div class="db-panel-head"><h3>Próximas clases en vivo</h3><span class="pill pill-gold">Próximamente</span></div>
+        <div class="mini-class"><div class="date-chip">Jue<span>18:00</span></div><div class="info"><div class="t">Alambrismo: Nudos Roseta</div><div class="h">Jueves, 18:00 hrs</div></div></div>
+        <div class="mini-class"><div class="date-chip">Sáb<span>10:00</span></div><div class="info"><div class="t">Q&amp;A: Mostasilla Geométrica</div><div class="h">Sábado, 10:00 hrs</div></div></div>
+      </div>
+      <div class="db-panel">
+        <div class="db-panel-head"><h3>Comentarios de tus instructores</h3><span class="pill pill-gold">Próximamente</span></div>
+        <div class="comentario-caja">
+          <div class="comentario-header"><span class="comentario-autor">Prof. Elena (Módulo de Macramé)</span><span class="comentario-fecha">Hace 2 días</span></div>
+          <p class="comentario-texto">"¡Excelente trabajo con el nudo festón! Para tu próximo collar, recuerda mantener una tensión constante en el hilo base para que el tejido no se tuerza. ¡Vas muy bien!"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECCIÓN: MI PERFIL -->
+            <div id="perfil" class="seccion-dashboard">
+<div class="db-content-title"><h1>Mi perfil</h1><p>Gestiona tu información personal, tus preferencias y los datos para la entrega de tus herramientas.</p></div>
+                <div class="perfil-grid-principal">
+                    <div class="perfil-col-izq">
+                        <div class="tarjeta-ajustes" style="text-align: center;">
+                            <h3 style="text-align: left;">Foto de Perfil</h3>
+                            <div class="perfil-foto-wrapper">
+                                <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><rect width='160' height='160' fill='%23ece6d8'/><circle cx='80' cy='62' r='28' fill='%23c9bfa8'/><path d='M24 150c4-34 30-52 56-52s52 18 56 52z' fill='%23c9bfa8'/></svg>" alt="Foto de perfil" id="imgPerfil" class="perfil-foto-img">
+                            </div>
+                            <input type="file" id="inputFotoPerfil" accept="image/*" class="campo-oculto">
+                            <div class="foto-acciones">
+                                <button class="btn-secundario" style="flex: 1; padding: 8px;" onclick="document.getElementById('inputFotoPerfil').click()">Cambiar</button>
+                                <button class="btn-peligro" style="flex: 1; padding: 8px;" onclick="borrarFotoPerfil()">Borrar</button>
+                            </div>
+                        </div>
+                        <div class="tarjeta-ajustes">
+                            <h3>Seguridad</h3>
+                            <button class="btn-secundario" style="width: 100%; margin-bottom: 10px;" onclick="mostrarProximamente('Cambio de contraseña: próximamente. Esta función aún no está habilitada.')">Cambiar Contraseña</button>
+                            <button class="btn-peligro" style="width: 100%;" onclick="mostrarProximamente('Eliminar cuenta: próximamente. Por ahora, contacta a soporte.')">Eliminar Cuenta</button>
+                        </div>
+                    </div>
+                    <div class="perfil-col-der">
+                        <div class="tarjeta-ajustes">
+                            <h3>Información del Registro</h3>
+                            <form id="formPerfil">
+                                <div class="form-grid-2">
+                                    <div><label for="perfilDocumento">Cédula / Documento</label><input type="text" id="perfilDocumento" disabled></div>
+                                    <div><label for="perfilCorreo">Correo Electrónico (Login)</label><input type="email" id="perfilCorreo" disabled></div>
+                                    <div><label for="perfilNombre">Nombre Completo</label><input type="text" id="perfilNombre" required></div>
+                                    <div><label for="perfilTelefono">Teléfono / WhatsApp</label><input type="tel" id="perfilTelefono"></div>
+                                </div>
+                                <label for="perfilDireccion">Dirección de Taller/Casa (Para envío de ClassKits)</label>
+                                <input type="text" id="perfilDireccion" style="margin-bottom: 10px;">
+                                <button type="submit" style="align-self: flex-end;">Actualizar Datos</button>
+                            </form>
+                        </div>
+                        <div class="tarjeta-ajustes">
+                            <h3>Notificaciones y Privacidad <span class="badge-proximamente" style="margin-left:6px; padding:3px 10px;">Próximamente</span></h3>
+                            <div class="toggle-container"><div class="toggle-label"><span>Notificaciones por WhatsApp</span><span class="toggle-desc">Recibe las guías de envío de tus materiales.</span></div><label class="switch"><input type="checkbox" checked onclick="event.preventDefault(); mostrarProximamente('Las notificaciones por WhatsApp y el boletín estarán disponibles próximamente.')"><span class="slider"></span></label></div>
+                            <div class="toggle-container"><div class="toggle-label"><span>Boletín Creativo</span><span class="toggle-desc">Tips de diseño y avisos de nuevos módulos.</span></div><label class="switch"><input type="checkbox" checked onclick="event.preventDefault(); mostrarProximamente('Las notificaciones por WhatsApp y el boletín estarán disponibles próximamente.')"><span class="slider"></span></label></div>
+                            <button class="btn-secundario" style="margin-top: 15px;" onclick="guardarPrivacidad()">Guardar Preferencias</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN: MÓDULOS (CLASES) -->
+            <div id="modulos" class="seccion-dashboard contenido-protegido">
+<div class="db-content-title"><h1>Mis módulos</h1><p>Clases en video organizadas por especialidad.</p></div>
+                <div class="tabs-niveles">
+                    <button class="btn-nivel activo-nivel" onclick="cambiarNivel('nivelAlambrismo', this)">Alambrismo</button>
+                    <button class="btn-nivel" onclick="cambiarNivel('nivelMacrame', this)">Macramé</button>
+                    <button class="btn-nivel" onclick="cambiarNivel('nivelMostasilla', this)">Mostasilla</button>
+                </div>
+                
+                <!-- ALAMBRISMO -->
+                <div id="nivelAlambrismo" class="contenedor-nivel activo-contenido">
+                    <p class="modulo-item-desc" style="margin-bottom: 20px;">Aprende <em>wire wrapping</em> y la manipulación técnica de alambres base y metales preciosos.</p>
+                    <div class="grid-modulos-tarjetas">
+                        <div class="tarjeta-modulo-item">
+                            <h3 class="modulo-item-titulo">Clase 1: Engarces Básicos y Nudo de Rosario</h3>
+                            <div class="visor-multimedia"><video controls controlsList="nodownload" disablePictureInPicture><source src="recursos/alambrismo-clase1.mp4" type="video/mp4"></video></div>
+                            <button class="btn-secundario" onclick="mostrarAvisoIntegracion('Plano - Engarces Básicos')">Descargar Guía de Cortes</button>
+                        </div>
+                        <div class="tarjeta-modulo-item">
+                            <h3 class="modulo-item-titulo">Clase 2: Estructura de Anillo Espiral</h3>
+                            <div class="visor-multimedia"><video controls controlsList="nodownload" disablePictureInPicture><source src="recursos/alambrismo-clase2.mp4" type="video/mp4"></video></div>
+                            <button class="btn-secundario" onclick="mostrarAvisoIntegracion('Plano - Anillo Espiral')">Descargar Guía de Cortes</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MACRAMÉ -->
+                <div id="nivelMacrame" class="contenedor-nivel">
+                    <p class="modulo-item-desc" style="margin-bottom: 20px;">Técnicas de entramado con hilos encerados y fijación de cabujones sin pegamento.</p>
+                    <div class="grid-modulos-tarjetas">
+                        <div class="tarjeta-modulo-item">
+                            <h3 class="modulo-item-titulo">Clase 1: Nudo Plano y Trenza de 4 hilos</h3>
+                            <div class="visor-multimedia"><video controls controlsList="nodownload" disablePictureInPicture><source src="recursos/macrame-clase1.mp4" type="video/mp4"></video></div>
+                            <button class="btn-secundario" onclick="mostrarAvisoIntegracion('Guía - Nudos Básicos')">Descargar Plantilla de Nudos</button>
+                        </div>
+                        <div class="tarjeta-modulo-item">
+                            <h3 class="modulo-item-titulo">Clase 2: Engaste de Piedra con Macramé</h3>
+                            <div class="visor-multimedia"><video controls controlsList="nodownload" disablePictureInPicture><source src="recursos/macrame-clase2.mp4" type="video/mp4"></video></div>
+                            <button class="btn-secundario" onclick="mostrarAvisoIntegracion('Guía - Engaste Macramé')">Descargar Plantilla de Nudos</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- MOSTASILLA (Bloqueado simulando que requiere el kit avanzado) -->
+                <div id="nivelMostasilla" class="contenedor-nivel">
+                    <!-- Estado Bloqueado -->
+                    <div id="avisoKitBloqueado" class="aviso-integracion-box">
+                        <div class="aviso-icono" data-ic="lock"></div>
+                        <h3 class="aviso-titulo">Módulo de Mostasilla Bloqueado</h3>
+                        <p class="aviso-descripcion">
+                            Para iniciar con el tejido Miyuki (Peyote y Brick Stitch) requieres el <b>Kit Master de Mostasilla</b> (agujas especiales, hilo nylon y delicas calibradas). Adquiérelo para desbloquear las clases.
+                        </p>
+                        <button class="btn-secundario" style="width: auto; margin: 0 auto;" onclick="cambiarSeccion('kits', document.querySelectorAll('.sidebar-btn')[4])">Ir al Catálogo de ClassKits</button>
+                    </div>
+
+                    <!-- Estado Desbloqueado (Oculto por defecto) -->
+                    <div id="contenidoAvanzadoReal" class="campo-oculto">
+                        <p style="color: #64748B; margin-top: 0; margin-bottom: 20px;">Aprende técnicas tradicionales y geométricas de tejido con cuentas de vidrio.</p>
+                        <div class="grid-modulos-tarjetas">
+                            <div class="tarjeta-modulo-item">
+                                <h3 class="modulo-item-titulo">Clase 1: Puntada Peyote Par e Impar</h3>
+                                <div class="visor-multimedia"><video controls controlsList="nodownload" disablePictureInPicture><source src="recursos/mostasilla-clase1.mp4" type="video/mp4"></video></div>
+                                <button class="btn-secundario" onclick="mostrarAvisoIntegracion('Patrón - Peyote Básico')">Ver Patrón (PDF)</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECCIÓN: TAREAS -->
+            <div id="tareas" class="seccion-dashboard">
+<div class="db-content-title"><h1>Entregas y proyectos</h1><p>Sube las fotos o videos de tus piezas terminadas. Tu instructor las revisará y calificará para avanzar en tu porcentaje de la plataforma.</p></div>
+
+                <h3 class="titulo-nivel-tarea">Alambrismo</h3>
+                <div class="grid-modulos-tarjetas" id="gridTareasBasico"></div>
+
+                <h3 class="titulo-nivel-tarea">Macramé</h3>
+                <div class="grid-modulos-tarjetas" id="gridTareasIntermedio"></div>
+
+                <h3 class="titulo-nivel-tarea">Mostasilla</h3>
+                <div class="grid-modulos-tarjetas" id="gridTareasAvanzado"></div>
+            </div>
+            
+            <!-- SECCIÓN: CATÁLOGO DE KITS -->
+            <div id="kits" class="seccion-dashboard">
+<div class="db-content-title"><h1>Catálogo de ClassKits</h1><p>Solicita los materiales de cada módulo y sigue el estado de tus pedidos.</p></div>
+                <div class="catalogo-grid" id="catalogoKitsDinamico">
+                    <!-- Las tarjetas de kits las dibuja portal-estudiante.js (KITS_RAIZA) -->
+                </div>
+                <div class="db-panel" style="margin-top:24px;">
+  <div class="db-panel-head"><h3>Seguimiento de mis pedidos</h3></div>
+  <div class="db-tabla-scroll">
+    <table class="db-table">
+      <thead><tr><th>ID pedido</th><th>ClassKit solicitado</th><th>Fecha</th><th>Estado de envío</th></tr></thead>
+      <tbody id="tablaMisKits"><tr><td colspan="4" class="cargando">Cargando…</td></tr></tbody>
+    </table>
+  </div>
+</div>
+            </div>
+
+            <!-- SECCIÓN: CERTIFICADOS -->
+            <div id="certificados" class="seccion-dashboard">
+<div class="db-content-title"><h1>Mis certificados</h1><p>Tu diploma oficial al completar la plataforma.</p></div>
+                <div class="aviso-integracion-box">
+                    <div class="aviso-icono" data-ic="award"></div><h3 class="aviso-titulo">Sección en Proceso de Integración</h3>
+                    <p class="aviso-descripcion">Pronto podrás descargar aquí tu diploma oficial firmado por los artesanos e instructores de RAIZA al completar el 100% de la plataforma.</p>
+                    <span class="badge-proximamente">Próximamente</span>
+                </div>
+            </div>
+</div>
+<div data-parte="modals">
+<!-- MODAL CHECKOUT KITS -->
+    <div id="modalKit" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-cerrar" onclick="cerrarModalKit()"><span data-ic="x"></span></button>
+            <h3 class="modal-titulo" id="modalKitTitulo">Solicitar Kit</h3>
+            <form id="formCheckoutKit">
+                <label for="nombreEnvio">Nombre Completo de quien recibe:</label><input type="text" id="nombreEnvio" required>
+                <label for="direccionEnvio">Dirección Completa de Domicilio:</label><input type="text" id="direccionEnvio" required>
+                <label for="metodoPago">Método de Pago:</label>
+                <select id="metodoPago" required onchange="cambiarMetodoPago()">
+                    <option value="">Selecciona un método</option><option value="PSE">PSE (Pagos Seguros en Línea)</option><option value="Tarjeta">Tarjeta de Crédito / Débito</option>
+                </select>
+                <div id="seccionPse" class="campo-oculto contenedor-pse">
+                    <label for="bancoPse">Banco:</label><select id="bancoPse"><option value="">-- Elige tu banco --</option><option value="Bancolombia">Bancolombia</option><option value="Nequi (PSE)">Nequi</option><option value="Daviplata">Daviplata</option></select>
+                    <label for="tipoDocumento">Documento del titular:</label><select id="tipoDocumento"><option value="CC">Cédula (CC)</option></select>
+                    <label for="numeroDocumento">Número de documento:</label><input type="text" id="numeroDocumento">
+                </div>
+                <button type="submit" style="margin-top: 10px;">Confirmar y Pagar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL SUBIR / EDITAR TAREA -->
+    <div id="modalTarea" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-cerrar" onclick="cerrarModalTarea()"><span data-ic="x"></span></button>
+            <h3 class="modal-titulo" id="modalTareaTitulo">Entregar Proyecto Finalizado</h3>
+            <form id="formSubirTareaDin">
+                <label for="comentarioTareaDin">Comentarios adicionales para el maestro artesano:</label>
+                <input type="text" id="comentarioTareaDin" placeholder="Opcional: Ejemplo: 'Tuve dificultad al cerrar la argolla...'">
+                <label for="archivoTareaDin">Sube las fotos de tu pieza terminada (máximo 10 MB) o pega un enlace de video de Google Drive / YouTube en los comentarios:</label>
+                <input type="file" id="archivoTareaDin" accept=".pdf,.jpg,.jpeg,.png,.mp4" style="background: var(--blanco);">
+                <button type="submit" style="margin-top: 10px;">Guardar y Enviar a Revisión</button>
+            </form>
+        </div>
+    </div>
+</div>
+</template>
+
+<template id="tpl-modulos">
+<div data-parte="secciones">
+<!-- VISTA GENÉRICA DE MÓDULOS (tablas del panel anterior) -->
+<section class="db-seccion" id="seccion-tabla" style="display:none;">
+  <div class="db-content-title"><h1 id="tituloTablaGrande">—</h1><p>Consulta y gestiona tus registros</p></div>
+  <div class="db-toolbar">
+    <select id="select-tabla"></select>
+    <button class="btn btn-outline btn-sm" id="btn-refrescar">Actualizar</button>
+    <button class="btn btn-coral btn-sm" id="btn-nuevo">+ Nuevo registro</button>
+  </div>
+  <div class="db-panel">
+    <h3 id="titulo-panel">—</h3>
+    <div class="db-tabla-scroll">
+      <table class="db-table">
+        <thead id="cabecera-tabla"></thead>
+        <tbody id="cuerpo-tabla"><tr><td class="cargando">Cargando…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+<!-- CALENDARIO A PANTALLA COMPLETA -->
+<section class="db-seccion" id="seccion-calendario-full" style="display:none;">
+  <div class="db-content-title"><h1>Calendario</h1><p>Tus clases en vivo y entregas programadas</p></div>
+  <div class="db-panel" style="max-width:420px;"><div id="miniCalendarioFull"></div></div>
+</section>
+</div>
+<div data-parte="modal">
+<div class="modal-fondo" id="modal-fondo">
+  <div class="modal-caja">
+    <h3 id="modal-titulo">Registro</h3>
+    <p class="modal-sub" id="modal-sub"></p>
+    <form id="modal-form"></form>
+    <p class="modal-error" id="modal-error"></p>
+    <div class="modal-acciones">
+      <button type="button" class="btn btn-outline" id="modal-cancelar">Cancelar</button>
+      <button type="button" class="btn btn-coral" id="modal-guardar">Guardar</button>
+    </div>
+  </div>
+</div>
+</div>
+</template>
+
+<script src="icons.js"></script>
+<script src="proximamente.js"></script>
+<script src="sesion.js"></script>
+<script>
+/* Decide el panel según el rol guardado al iniciar sesión y carga solo su script. */
+(function(){
+  var token = localStorage.getItem('raiza_jwt');
+  var crudo = (RZ_SESION.rol() || '').toLowerCase();
+  var rol = crudo.indexOf('estudiante') !== -1 ? 'estudiante'
+          : crudo.indexOf('instructor') !== -1 ? 'instructor'
+          : crudo.indexOf('admin') !== -1 ? 'admin' : null;
+  if(!token || !rol){ window.location.replace('login.html'); return; }
+
+  var tpl = document.getElementById('tpl-' + rol).content;
+  var parte = function(n){ return tpl.querySelector('[data-parte="' + n + '"]'); };
+  var comun = document.getElementById('tpl-modulos').content;
+  document.getElementById('brandTexto').outerHTML = parte('brand').innerHTML;
+  document.getElementById('navRol').innerHTML = parte('nav').innerHTML;
+  document.getElementById('footRol').textContent = parte('foot').textContent;
+  document.getElementById('contenidoRol').innerHTML = parte('main').innerHTML +
+    comun.querySelector('[data-parte="secciones"]').innerHTML;
+  document.getElementById('modalesRol').innerHTML = parte('modals').innerHTML +
+    comun.querySelector('[data-parte="modal"]').innerHTML;
+  document.title = 'RAIZA — ' + parte('brand').textContent.replace('RAIZA','').trim();
+
+  var nombre = RZ_SESION.nombre() || 'Usuario';
+  document.getElementById('topbarNombre').textContent = nombre;
+  var hn = document.getElementById('heroNombre'); if(hn) hn.textContent = nombre;
+  document.getElementById('topbarRol').textContent = rol.charAt(0).toUpperCase() + rol.slice(1);
+  var ini = nombre.trim().split(/\s+/).slice(0,2).map(function(p){ return p.charAt(0).toUpperCase(); }).join('') || '?';
+  var av = document.getElementById('imgPerfilSidebar');
+  if(!av.getAttribute('src')) av.src = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='64'><rect width='64' height='64' rx='32' fill='%236b7a3a'/><text x='32' y='41' font-family='Inter,Arial,sans-serif' font-size='24' font-weight='600' text-anchor='middle' fill='white'>" + ini + "</text></svg>";
+
+  var cerrar = { admin:'cerrarSesionAdmin', instructor:'cerrarSesionInstructor', estudiante:'cerrarSesion' }[rol];
+  document.getElementById('logoutBtn').addEventListener('click', function(e){
+    e.preventDefault();
+    if(typeof window[cerrar] === 'function') window[cerrar](); else { localStorage.clear(); window.location.href = 'login.html'; }
+  });
+  /* Logo/título de la barra lateral: lleva al inicio del portal del usuario (estudiante, instructor o administrador según su rol) */
+  (function(){
+    var marca = document.getElementById('brandPortal');
+    if(!marca) return;
+    marca.addEventListener('click', function(e){
+      var inicio = document.querySelector('#navRol .db-nav-item');
+      if(!inicio) return;            // sin menú cargado: sigue el enlace normal a portal.html
+      e.preventDefault();
+      inicio.click();                // misma acción que pulsar "Inicio"
+      document.getElementById('sidebar').classList.remove('abierto');
+      window.scrollTo(0, 0);
+    });
+  })();
+  /* Grupos plegables: al hacer clic en el título (Aprendizaje, Mi cuenta…) se contraen/expanden; se recuerda el estado por grupo */
+  (function(){
+    var LLAVE_G = 'raiza_sb_grupos_cerrados';
+    var cerrados = [];
+    try{ cerrados = JSON.parse(localStorage.getItem(LLAVE_G) || '[]'); }catch(e){}
+    function guardar(){ try{ localStorage.setItem(LLAVE_G, JSON.stringify(cerrados)); }catch(e){} }
+    document.querySelectorAll('#navRol .db-nav-group').forEach(function(grupo, i){
+      var titulo = grupo.querySelector('.db-nav-group-title');
+      if(!titulo) return;
+      var nombre = titulo.textContent.trim();
+      var id = 'grp-' + i;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'db-nav-group-title';
+      btn.innerHTML = '<span></span><span class="db-chev" data-ic="chevron-down"></span>';
+      btn.firstChild.textContent = nombre;
+      var cont = document.createElement('div');
+      cont.className = 'db-nav-items';
+      cont.id = id;
+      while(titulo.nextSibling) cont.appendChild(titulo.nextSibling);
+      grupo.replaceChild(btn, titulo);
+      grupo.appendChild(cont);
+      btn.setAttribute('aria-controls', id);
+      function poner(cerrado){
+        grupo.classList.toggle('cerrado', cerrado);
+        cont.hidden = cerrado;
+        btn.setAttribute('aria-expanded', String(!cerrado));
+      }
+      poner(cerrados.indexOf(nombre) !== -1 && !cont.querySelector('.activo, .active'));
+      btn.addEventListener('click', function(){
+        var cerrar = !grupo.classList.contains('cerrado');
+        poner(cerrar);
+        var k = cerrados.indexOf(nombre);
+        if(cerrar && k === -1) cerrados.push(nombre);
+        if(!cerrar && k !== -1) cerrados.splice(k, 1);
+        guardar();
+      });
+    });
+  })();
+  /* Menú lateral: en escritorio se contrae a una barra de iconos (se recuerda la elección); en móvil se abre y cierra */
+  (function(){
+    var LLAVE = 'raiza_sb_colapsado';
+    var cuerpo = document.body, boton = document.getElementById('menuToggle');
+    var movil = window.matchMedia('(max-width: 900px)');
+    document.querySelectorAll('#navRol .db-nav-item').forEach(function(b){
+      var txt = b.textContent.trim(); b.title = txt; b.setAttribute('aria-label', txt);
+    });
+    function etiqueta(){
+      var c = cuerpo.classList.contains('sb-colapsado');
+      var t = movil.matches ? 'Abrir menú' : (c ? 'Expandir menú' : 'Contraer menú');
+      boton.title = t; boton.setAttribute('aria-label', t); boton.setAttribute('aria-expanded', String(!c));
+    }
+    try{ if(localStorage.getItem(LLAVE) === '1') cuerpo.classList.add('sb-colapsado'); }catch(e){}
+    boton.addEventListener('click', function(){
+      if(movil.matches){ document.getElementById('sidebar').classList.toggle('abierto'); return; }
+      var c = cuerpo.classList.toggle('sb-colapsado');
+      try{ localStorage.setItem(LLAVE, c ? '1' : '0'); }catch(e){}
+      etiqueta();
+    });
+    if(movil.addEventListener) movil.addEventListener('change', etiqueta);
+    etiqueta();
+  })();
+  if(window.RZ) RZ.pintar();
+
+  /* =====================================================================
+     MÓDULOS (tablas): vista genérica con listar / crear / editar / eliminar
+     contra https://localhost:7248/api/<Módulo>, usando el JWT de la sesión.
+     ===================================================================== */
+  var TABLAS = {"admin": [{"endpoint": "Administrador", "label": "Administradores"}, {"endpoint": "Instructor", "label": "Instructores"}, {"endpoint": "Estudiante", "label": "Estudiantes"}, {"endpoint": "Tematica", "label": "Temáticas"}, {"endpoint": "Modulo", "label": "Módulos"}, {"endpoint": "Leccion", "label": "Lecciones"}, {"endpoint": "Tarea", "label": "Tareas"}, {"endpoint": "EntregaTarea", "label": "Entregas de tareas"}, {"endpoint": "Progreso", "label": "Progreso por módulo"}, {"endpoint": "ProgresoLeccion", "label": "Progreso por lección"}, {"endpoint": "ClasesEnVivo", "label": "Clases en vivo"}, {"endpoint": "ClaseParticipante", "label": "Participantes de clase", "claves": ["idclase", "idestudiante"]}, {"endpoint": "ClassKit", "label": "Kits de clase"}, {"endpoint": "Compra", "label": "Compras"}, {"endpoint": "Certificado", "label": "Certificados"}, {"endpoint": "Notificacion", "label": "Notificaciones"}], "instructor": [{"endpoint": "Tematica", "label": "Temáticas"}, {"endpoint": "Modulo", "label": "Mis módulos"}, {"endpoint": "Leccion", "label": "Lecciones"}, {"endpoint": "Tarea", "label": "Tareas"}, {"endpoint": "Progreso", "label": "Progreso por módulo"}, {"endpoint": "ProgresoLeccion", "label": "Progreso por lección"}, {"endpoint": "ClasesEnVivo", "label": "Clases en vivo"}, {"endpoint": "ClaseParticipante", "label": "Participantes de clase", "claves": ["idclase", "idestudiante"]}, {"endpoint": "Certificado", "label": "Certificados"}, {"endpoint": "Notificacion", "label": "Notificaciones"}], "estudiante": [{"endpoint": "Progreso", "label": "Mi progreso"}, {"endpoint": "ProgresoLeccion", "label": "Progreso por lección"}, {"endpoint": "ClasesEnVivo", "label": "Clases en vivo"}, {"endpoint": "Notificacion", "label": "Notificaciones"}]}[rol];
+  var SOLO_LECTURA = (rol === 'estudiante');
+  var $ = function(id){ return document.getElementById(id); };
+  var esc = function(v){ return String(v == null ? '' : v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); };
+  var base = function(){ return (typeof API_BASE_URL !== 'undefined') ? API_BASE_URL : 'https://localhost:7248/api'; };
+  var SENSIBLE = /contrasen|password|hash/i;
+  var ES_FECHA = /^\d{4}-\d{2}-\d{2}T/;
+  var est = { ep:null, cfg:null, filas:[], cols:[], idKey:null, editando:null };
+
+  async function api(metodo, ruta, cuerpo){
+    var r = await fetch(base() + ruta, {
+      method: metodo,
+      headers: { 'Authorization': 'Bearer ' + localStorage.getItem('raiza_jwt'), 'Content-Type': 'application/json' },
+      body: cuerpo ? JSON.stringify(cuerpo) : undefined
+    });
+    if(r.status === 401){ alert('Tu sesión expiró. Inicia sesión nuevamente.'); localStorage.clear(); window.location.href = 'login.html'; throw new Error('Sesión expirada'); }
+    var data = null; try{ data = await r.json(); }catch(e){}
+    if(!r.ok){
+      var msg = data && (data.mensaje || data.message || data.title);
+      throw new Error((msg || 'Error del servidor') + ' (código ' + r.status + ')');
+    }
+    return data;
+  }
+
+  function detectarId(ep, fila){
+    var claves = Object.keys(fila), obj = 'id' + ep.toLowerCase();
+    var norm = function(k){ return k.replace(/_/g,'').toLowerCase(); };
+    for(var i=0;i<claves.length;i++) if(norm(claves[i]) === obj) return claves[i];
+    for(i=0;i<claves.length;i++) if(claves[i].toLowerCase() === 'id') return claves[i];
+    for(i=0;i<claves.length;i++) if(/^id/i.test(claves[i])) return claves[i];
+    return null;
+  }
+  function etiqueta(k){ return k.replace(/_/g,' ').replace(/([a-z])([A-Z])/g,'$1 $2'); }
+  function formato(v){
+    if(v === null || v === undefined || v === '') return '—';
+    if(typeof v === 'boolean') return v ? 'Sí' : 'No';
+    if(typeof v === 'string' && ES_FECHA.test(v)){ var d = new Date(v); if(!isNaN(d)) return d.toLocaleString('es-CO'); }
+    if(typeof v === 'object') return JSON.stringify(v);
+    return String(v);
+  }
+  function puedeEditar(){ return !SOLO_LECTURA && est.idKey && !(est.cfg && est.cfg.claves); }
+
+  function pintarTabla(){
+    var cab = $('cabecera-tabla'), cuerpo = $('cuerpo-tabla');
+    if(!est.filas.length){
+      cab.innerHTML = '';
+      cuerpo.innerHTML = '<tr><td class="vacio">No hay registros en este módulo todavía.</td></tr>';
+      return;
+    }
+    est.cols = Object.keys(est.filas[0]).filter(function(k){ return !SENSIBLE.test(k); });
+    var conAcc = puedeEditar();
+    cab.innerHTML = '<tr>' + est.cols.map(function(k){ return '<th>' + esc(etiqueta(k)) + '</th>'; }).join('') + (conAcc ? '<th>Acciones</th>' : '') + '</tr>';
+    cuerpo.innerHTML = est.filas.map(function(f, i){
+      return '<tr>' + est.cols.map(function(k){ return '<td title="' + esc(formato(f[k])) + '">' + esc(formato(f[k])) + '</td>'; }).join('') +
+        (conAcc ? '<td class="col-acciones"><button class="accion-link" data-acc="editar" data-i="' + i + '">Editar</button><button class="accion-link borrar" data-acc="eliminar" data-i="' + i + '">Eliminar</button></td>' : '') + '</tr>';
+    }).join('');
+  }
+
+  async function cargarTabla(ep){
+    est.ep = ep; est.cfg = TABLAS.filter(function(t){ return t.endpoint === ep; })[0] || null;
+    $('cuerpo-tabla').innerHTML = '<tr><td class="cargando">Cargando…</td></tr>';
+    $('cabecera-tabla').innerHTML = '';
+    try{
+      var datos = await api('GET', '/' + ep);
+      est.filas = Array.isArray(datos) ? datos : (datos ? [datos] : []);
+      est.idKey = est.filas.length ? detectarId(ep, est.filas[0]) : null;
+      pintarTabla();
+    }catch(err){
+      est.filas = [];
+      $('cuerpo-tabla').innerHTML = '<tr><td class="error-tabla">No se pudo cargar: ' + esc(err.message) + '</td></tr>';
+    }
+  }
+
+  /* ---------- Modal crear / editar ---------- */
+  function abrirModal(fila){
+    if(!est.filas.length && !fila){ alert('Este módulo aún no tiene registros de ejemplo, así que no se conocen sus campos. Crea el primer registro desde la API o Swagger.'); return; }
+    est.editando = fila || null;
+    var muestra = fila || est.filas[0];
+    $('modal-titulo').textContent = (fila ? 'Editar ' : 'Nuevo registro · ') + (est.cfg ? est.cfg.label : est.ep);
+    $('modal-sub').textContent = fila ? 'Modifica los campos y guarda los cambios.' : 'Completa los campos del nuevo registro.';
+    $('modal-error').textContent = '';
+    $('modal-form').innerHTML = Object.keys(muestra).filter(function(k){ return !SENSIBLE.test(k) && !(k === est.idKey && !fila); }).map(function(k){
+      var ref = muestra[k], v = fila ? fila[k] : null, id = 'campo_' + k, ro = (k === est.idKey) ? ' readonly' : '';
+      if(typeof ref === 'boolean')
+        return '<div class="campo-check"><input type="checkbox" id="' + id + '" data-k="' + esc(k) + '" data-t="bool"' + (v ? ' checked' : '') + '><label for="' + id + '">' + esc(etiqueta(k)) + '</label></div>';
+      var tipo = 'text', val = v == null ? '' : v, t = 'text';
+      if(typeof ref === 'number'){ tipo = 'number'; t = 'num'; }
+      else if(typeof ref === 'string' && ES_FECHA.test(ref)){ tipo = 'datetime-local'; t = 'fecha'; if(v){ var d = new Date(v); val = isNaN(d) ? '' : new Date(d.getTime() - d.getTimezoneOffset()*60000).toISOString().slice(0,16); } }
+      return '<div class="campo"><label for="' + id + '">' + esc(etiqueta(k)) + '</label><input type="' + tipo + '" step="any" id="' + id + '" data-k="' + esc(k) + '" data-t="' + t + '" data-nulo="' + (ref === null ? '1' : '') + '" value="' + esc(val) + '"' + ro + '></div>';
+    }).join('');
+    $('modal-fondo').classList.add('activo');
+  }
+  function cerrarModal(){ $('modal-fondo').classList.remove('activo'); }
+
+  async function guardar(){
+    var cuerpo = Object.assign({}, est.editando || {});
+    $('modal-form').querySelectorAll('[data-k]').forEach(function(el){
+      var k = el.dataset.k, t = el.dataset.t;
+      if(t === 'bool') cuerpo[k] = el.checked;
+      else if(t === 'num') cuerpo[k] = el.value === '' ? null : Number(el.value);
+      else if(t === 'fecha') cuerpo[k] = el.value ? new Date(el.value).toISOString() : null;
+      else cuerpo[k] = (el.value === '' && el.dataset.nulo) ? null : el.value;
+    });
+    var btn = $('modal-guardar'); btn.disabled = true; $('modal-error').textContent = '';
+    try{
+      if(est.editando) await api('PUT', '/' + est.ep + '/' + encodeURIComponent(est.editando[est.idKey]), cuerpo);
+      else await api('POST', '/' + est.ep, cuerpo);
+      cerrarModal();
+      cargarTabla(est.ep);
+    }catch(err){ $('modal-error').textContent = err.message; }
+    finally{ btn.disabled = false; }
+  }
+  async function eliminar(fila){
+    if(!confirm('¿Eliminar este registro? Esta acción no se puede deshacer.')) return;
+    try{ await api('DELETE', '/' + est.ep + '/' + encodeURIComponent(fila[est.idKey])); cargarTabla(est.ep); }
+    catch(err){ alert('No se pudo eliminar: ' + err.message); }
+  }
+
+  $('modal-cancelar').addEventListener('click', cerrarModal);
+  $('modal-guardar').addEventListener('click', guardar);
+  $('modal-fondo').addEventListener('click', function(e){ if(e.target === this) cerrarModal(); });
+  $('btn-refrescar').addEventListener('click', function(){ if(est.ep) cargarTabla(est.ep); });
+  $('btn-nuevo').addEventListener('click', function(){ abrirModal(null); });
+  if(SOLO_LECTURA) $('btn-nuevo').style.display = 'none';
+  $('cuerpo-tabla').addEventListener('click', function(e){
+    var b = e.target.closest('[data-acc]'); if(!b) return;
+    var fila = est.filas[Number(b.dataset.i)];
+    if(b.dataset.acc === 'editar') abrirModal(fila); else eliminar(fila);
+  });
+  var sel = $('select-tabla');
+  sel.innerHTML = TABLAS.map(function(t){ return '<option value="' + t.endpoint + '">' + esc(t.label) + '</option>'; }).join('');
+  sel.addEventListener('change', function(){
+    var b = document.querySelector('#navRol .db-nav-item[data-target="' + sel.value + '"]');
+    if(b){ marcarActivo(b, false); }
+    irAModulo(sel.value);
+  });
+
+  /* ---------- Navegación unificada: secciones nuevas + módulos ---------- */
+  var bloques = function(){ return ['seccion-tabla','seccion-calendario-full'].map($); };
+  function marcarActivo(btn, esNuevo){
+    document.querySelectorAll('#navRol .db-nav-item').forEach(function(b){ b.classList.remove('active'); });
+    if(!esNuevo){
+      document.querySelectorAll('#navRol .sidebar-btn').forEach(function(b){ b.classList.remove('activo'); });
+      btn.classList.add('active');
+    }
+  }
+  function mostrarBloque(id){
+    bloques().forEach(function(s){ s.style.display = (s.id === id) ? '' : 'none'; });
+    document.querySelectorAll('.seccion-dashboard').forEach(function(s){ s.classList.remove('activa'); });
+  }
+  /* Calendario mensual sencillo (sin dependencias) */
+  function pintarCalendario(){
+    var h = new Date(), y = h.getFullYear(), m = h.getMonth();
+    var primero = (new Date(y, m, 1).getDay() + 6) % 7, dias = new Date(y, m + 1, 0).getDate();
+    var nombreMes = h.toLocaleDateString('es-CO', { month:'long', year:'numeric' });
+    var html = '<div class="mini-cal-head"><span class="mes">' + esc(nombreMes) + '</span></div><div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-size:.85rem;">';
+    ['L','M','X','J','V','S','D'].forEach(function(d){ html += '<strong style="color:#848c76;font-size:.74rem;">' + d + '</strong>'; });
+    for(var i=0;i<primero;i++) html += '<span></span>';
+    for(var d=1; d<=dias; d++) html += '<span style="padding:7px 0;border-radius:8px;' + (d === h.getDate() ? 'background:#6b7a3a;color:#fff;font-weight:600;' : '') + '">' + d + '</span>';
+    $('miniCalendarioFull').innerHTML = html + '</div>';
+  }
+  function irAModulo(target){
+    if(target === 'calendario-full'){ mostrarBloque('seccion-calendario-full'); pintarCalendario(); return; }
+    mostrarBloque('seccion-tabla');
+    var cfg = TABLAS.filter(function(t){ return t.endpoint === target; })[0];
+    $('tituloTablaGrande').textContent = cfg ? cfg.label : target;
+    $('titulo-panel').textContent = cfg ? cfg.label : target;
+    sel.value = target;
+    cargarTabla(target);
+  }
+  $('sidebar').addEventListener('click', function(e){
+    var btn = e.target.closest('.db-nav-item');
+    if(!btn) return;
+    if(btn.dataset.target){            // módulo (tabla)
+      marcarActivo(btn, false);
+      irAModulo(btn.dataset.target);
+    }else{                             // sección nueva (cambiarSeccion ya la mostró)
+      marcarActivo(btn, true);
+      bloques().forEach(function(s){ s.style.display = 'none'; });
+    }
+    this.classList.remove('abierto');
+  });
+
+  /* Al usar las secciones nuevas (menú o accesos rápidos) se oculta la vista de módulos */
+  document.addEventListener('DOMContentLoaded', function(){
+    if(typeof window.cambiarSeccion !== 'function') return;
+    var orig = window.cambiarSeccion;
+    window.cambiarSeccion = function(){
+      bloques().forEach(function(s){ s.style.display = 'none'; });
+      document.querySelectorAll('#navRol .db-nav-item').forEach(function(b){ b.classList.remove('active'); });
+      return orig.apply(this, arguments);
+    };
+  });
+
+  /* El script del rol se escribe aquí para que corra antes de DOMContentLoaded (sus init lo esperan) */
+  document.write('<script src="portal-' + rol + '.js"><\/script>');
+})();
+</script>
+</body>
+</html>

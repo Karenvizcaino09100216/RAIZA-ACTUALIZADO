@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAIZA — Academia de Joyería Artesanal</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-inner">
+    <a href="#inicio" class="brand">
+      <span class="brand-mark">
+        <img src="raiza-icon.png" alt="RAIZA" class="brand-mark-img" id="brandLogoImg">
+        <span class="avatar brand-avatar" id="brandAvatar" style="display:none;">?</span>
+      </span>
+      <span class="brand-text">
+        <strong id="brandName">RAIZA</strong>
+        <span id="brandRole">ACADEMIA DE JOYERÍA</span>
+      </span>
+    </a>
+
+    <div class="nav-links" id="navLinks">
+      <a href="#inicio" class="nav-item active">Inicio</a>
+      <a href="#plan" class="nav-item">Plan de estudios</a>
+      <a href="#modalidades" class="nav-item">Modalidades</a>
+      <a href="#recursos" class="nav-item">Recursos</a>
+      <a href="#certificacion" class="nav-item">Certificación</a>
+    </div>
+
+    <div class="nav-cta">
+      <a href="login.html" class="btn btn-coral" id="loginBtn">Iniciar Sesión</a>
+      <div class="user-chip" id="userChip">
+        <a href="#" id="logoutBtn">Cerrar sesión</a>
+      </div>
+      <a href="#inscribete" class="btn btn-outline-light" style="border-color:var(--gold-300);color:var(--gold-300);">Inscríbete</a>
+      <button class="hamburger" id="hamburger" aria-label="Abrir menú"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- ===================== INICIO ===================== -->
+<section class="hero" id="inicio">
+  <div class="wrap">
+    <span class="eyebrow"><i data-ic="badge-check"></i> Certificación oficial 2026</span>
+    <h1>
+      <span class="line1">RAIZA Academia de</span>
+      <span class="line2">Joyería Artesanal</span>
+    </h1>
+    <p>Domina el arte de la joyería artesanal con un programa integral de certificación. Aprende con profesionales, obtén tu certificación oficial y transforma tu pasión en tu profesión.</p>
+    <div class="hero-actions">
+      <a href="#inscribete" class="btn btn-coral">Inscríbete ahora</a>
+      <a href="#plan" class="btn btn-outline">Ver plan de estudios</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <h2>¿Por qué elegir nuestra academia?</h2>
+      <p>Una formación completa que te prepara para el éxito profesional</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon" data-ic="graduation-cap"></div>
+        <h3>Certificación oficial</h3>
+        <p>Avalada por la Asociación de Artesanos, válida para abrir tu negocio.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" data-ic="book-open"></div>
+        <h3>6 módulos progresivos</h3>
+        <p>Desde fundamentos hasta técnicas avanzadas y proyecto final.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" data-ic="users"></div>
+        <h3>Grupos reducidos</h3>
+        <p>Máximo 8 personas por clase presencial para atención personalizada.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-icon" data-ic="gem"></div>
+        <h3>Herramientas Pro</h3>
+        <p>Kit básico incluido con herramientas profesionales de calidad.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap split">
+    <div>
+      <h2>Un programa diseñado para tu éxito</h2>
+      <p>Nuestro programa de certificación está estructurado en 6 módulos progresivos que te llevarán desde los fundamentos hasta técnicas avanzadas.</p>
+      <ul class="step-list">
+        <li>
+          <span class="step-num">1</span>
+          <div><h4>Fundamentos (4 semanas)</h4><p>Herramientas básicas, materiales e historia de la bisutería</p></div>
+        </li>
+        <li>
+          <span class="step-num">2</span>
+          <div><h4>Técnicas Básicas (6 semanas)</h4><p>Enfilado, nudos, cierres y montaje básico</p></div>
+        </li>
+        <li>
+          <span class="step-num">3</span>
+          <div><h4>Trabajo con Metales (8 semanas)</h4><p>Alambrismo, soldadura fría y texturizado</p></div>
+        </li>
+      </ul>
+      <a href="#plan" class="btn btn-outline">Ver programa completo</a>
+    </div>
+    <div class="diamond-card">
+      <svg width="110" height="110" viewBox="0 0 100 100" fill="none">
+        <path d="M20 32 L50 12 L80 32 L50 90 Z" stroke="#d8dd85" stroke-width="1.4"/>
+        <path d="M20 32 L80 32 M32 32 L50 90 M68 32 L50 90 M20 32 L50 46 L80 32" stroke="#d8dd85" stroke-width="1"/>
+      </svg>
+      <div class="big">36 semanas de formación integral</div>
+      <div class="small">Certificación reconocida oficialmente</div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0;">
+  <div class="wrap">
+    <div class="cta-band">
+      <h2>Comienza tu viaje en la bisutería artesanal</h2>
+      <p>Inscríbete ahora y obtén un 15% de descuento en la modalidad presencial intensiva</p>
+      <a href="#inscribete" class="btn btn-coral">Inscríbete ahora</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== PLAN DE ESTUDIOS ===================== -->
+<section id="plan" style="background:var(--sand-100);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><i data-ic="book-open"></i> Plan de estudios</span>
+      <h2>Programa de certificación</h2>
+      <p>Un plan integral para dominar el arte de la bisutería artesanal en 6 módulos progresivos</p>
+    </div>
+
+    <div class="table-card">
+      <h3>Resumen del programa</h3>
+      <table>
+        <thead>
+          <tr><th>Módulo</th><th>Duración</th><th>Contenido principal</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="mod">1. Fundamentos</td><td>4 semanas</td><td>Herramientas básicas, materiales, historia de la bisutería</td></tr>
+          <tr><td class="mod">2. Técnicas básicas</td><td>6 semanas</td><td>Enfilado, nudos, cierres, montaje básico</td></tr>
+          <tr><td class="mod">3. Trabajo con metales</td><td>8 semanas</td><td>Alambrismo, soldadura fría, texturizado</td></tr>
+          <tr><td class="mod">4. Piedras y cristales</td><td>6 semanas</td><td>Engastes, combinaciones, propiedades</td></tr>
+          <tr><td class="mod">5. Técnicas avanzadas</td><td>8 semanas</td><td>Macramé, tejido, técnicas mixtas</td></tr>
+          <tr><td class="mod">6. Proyecto final</td><td>4 semanas</td><td>Colección personal y presentación</td></tr>
+        </tbody>
+        <tfoot>
+          <tr><td>Duración total del programa<br><span style="font-weight:400;color:var(--ink-600);font-size:0.82rem;">Incluye proyecto final y certificación</span></td><td colspan="2" style="text-align:right;">36 semanas<br><span style="font-weight:400;color:var(--ink-600);font-size:0.82rem;">9 meses</span></td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <h3 style="font-size:1.1rem;color:var(--coral-600);margin-bottom:20px;">Contenido detallado</h3>
+    <div class="module-grid">
+      <div class="module-card">
+        <div class="mod-badge">1</div>
+        <h4>Fundamentos</h4>
+        <div class="dur">4 semanas</div>
+        <div class="desc">Herramientas básicas, materiales, historia de la bisutería</div>
+        <div class="topics-label">Temas incluidos:</div>
+        <ul class="topics">
+          <li>Introducción a la bisutería artesanal</li>
+          <li>Herramientas esenciales y su uso</li>
+          <li>Tipos de materiales y sus propiedades</li>
+          <li>Historia y evolución de la joyería</li>
+          <li>Principios de diseño y composición</li>
+        </ul>
+      </div>
+      <div class="module-card">
+        <div class="mod-badge">2</div>
+        <h4>Técnicas básicas</h4>
+        <div class="dur">6 semanas</div>
+        <div class="desc">Enfilado, nudos, cierres, montaje básico</div>
+        <div class="topics-label">Temas incluidos:</div>
+        <ul class="topics">
+          <li>Técnicas de enfilado profesional</li>
+          <li>Nudos decorativos y funcionales</li>
+          <li>Colocación de cierres y broches</li>
+          <li>Montaje de piezas básicas</li>
+          <li>Acabados y terminaciones</li>
+        </ul>
+      </div>
+      <div class="module-card">
+        <div class="mod-badge">3</div>
+        <h4>Trabajo con metales</h4>
+        <div class="dur">8 semanas</div>
+        <div class="desc">Alambrismo, soldadura fría, texturizado</div>
+        <div class="topics-label">Temas incluidos:</div>
+        <ul class="topics">
+          <li>Técnicas de alambrismo y wire wrapping</li>
+          <li>Soldadura fría y uniones</li>
+          <li>Texturizado y acabados metálicos</li>
+          <li>Creación de componentes personalizados</li>
+          <li>Tratamiento y mantenimiento de metales</li>
+        </ul>
+      </div>
+      <div class="module-card">
+        <div class="mod-badge">4</div>
+        <h4>Piedras y cristales</h4>
+        <div class="dur">6 semanas</div>
+        <div class="desc">Engastes, combinaciones, propiedades</div>
+        <div class="topics-label">Temas incluidos:</div>
+        <ul class="topics">
+          <li>Tipos de piedras y cristales</li>
+          <li>Técnicas de engaste profesional</li>
+          <li>Combinaciones cromáticas y estéticas</li>
+          <li>Propiedades y significados</li>
+          <li>Cuidado y limpieza de piedras</li>
+        </ul>
+      </div>
+      <div class="module-card">
+        <div class="mod-badge">5</div>
+        <h4>Técnicas avanzadas</h4>
+        <div class="dur">4 semanas</div>
+        <div class="desc">Macramé, tejido, técnicas mixtas</div>
+        <div class="topics-label">Temas incluidos:</div>
+        <ul class="topics">
+          <li>Macramé aplicado a bisutería</li>
+          <li>Técnicas de tejido con cuentas</li>
+          <li>Combinación de técnicas mixtas</li>
+          <li>Diseño de piezas complejas</li>
+          <li>Innovación y experimentación</li>
+        </ul>
+      </div>
+      <div class="module-card">
+        <div class="mod-badge">6</div>
+        <h4>Proyecto final</h4>
+        <div class="dur">4 semanas</div>
+        <div class="desc">Colección personal y presentación</div>
+        <div class="topics-label">Temas incluidos:</div>
+        <ul class="topics">
+          <li>Diseño de colección personal (mínimo 5 piezas)</li>
+          <li>Desarrollo de concepto y marca</li>
+          <li>Producción de piezas finales</li>
+          <li>Fotografía de producto</li>
+          <li>Presentación y defensa del proyecto</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="feature-trio">
+      <div class="feature-card">
+        <div class="fi" data-ic="book-open"></div>
+        <h4>Material didáctico</h4>
+        <p>Manual completo en PDF, videos tutoriales y plantillas descargables</p>
+      </div>
+      <div class="feature-card">
+        <div class="fi" data-ic="clipboard-check"></div>
+        <h4>Evaluaciones</h4>
+        <p>Ejercicios prácticos al final de cada módulo con feedback personalizado</p>
+      </div>
+      <div class="feature-card">
+        <div class="fi" data-ic="clock"></div>
+        <h4>Horarios flexibles</h4>
+        <p>Elige entre diferentes modalidades según tu disponibilidad</p>
+      </div>
+    </div>
+
+    <div class="cta-band dark">
+      <h2>¿Listo para comenzar?</h2>
+      <p>Explora nuestras modalidades de estudio y encuentra la que mejor se adapte a ti</p>
+      <div class="hero-actions">
+        <a href="#modalidades" class="btn btn-cream">Ver modalidades</a>
+        <a href="#inscribete" class="btn btn-outline-light">Inscríbete ahora</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== MODALIDADES ===================== -->
+<section id="modalidades">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><i data-ic="calendar-days"></i> Modalidades de estudio</span>
+      <h2>Opciones flexibles</h2>
+      <p>Elige la modalidad que mejor se adapte a tu ritmo de vida y objetivos. Todas incluyen certificación oficial.</p>
+    </div>
+
+    <div class="modality-grid">
+      <div class="modality-card">
+        <div class="mod-icon" data-ic="map-pin"></div>
+        <h4>Presencial intensivo</h4>
+        <div class="sub">Inmersión total en el arte de la bisutería</div>
+        <div class="price">$1.850.000 <span>/ 9 meses</span></div>
+        <div class="feat-grid">
+          <div>Clases de 3 horas</div>
+          <div>2 veces por semana</div>
+          <div>Grupos reducidos (8 personas)</div>
+          <div>Acceso completo al taller</div>
+          <div>Kit básico incluido</div>
+          <div>Certificación oficial</div>
+        </div>
+      </div>
+      <div class="modality-card">
+        <div class="mod-icon" data-ic="laptop"></div>
+        <h4>Semipresencial</h4>
+        <div class="sub">Combina flexibilidad con práctica guiada</div>
+        <div class="price">$1.450.000 <span>/ 9 meses</span></div>
+        <div class="feat-grid">
+          <div>1 clase presencial semanal</div>
+          <div>Material teórico online</div>
+          <div>Seguimiento personalizado</div>
+          <div>Kit de materiales incluido</div>
+          <div>Acceso a plataforma 24/7</div>
+          <div>Certificación oficial</div>
+        </div>
+      </div>
+      <div class="modality-card">
+        <div class="mod-icon" data-ic="truck"></div>
+        <h4>Online con envío</h4>
+        <div class="sub">Aprende desde casa con kit completo</div>
+        <div class="price">$990.000 <span>/ 12 meses de acceso</span></div>
+        <div class="feat-grid">
+          <div>Videos tutoriales HD</div>
+          <div>Sesiones en vivo semanales</div>
+          <div>Kit completo por correo</div>
+          <div>Comunidad privada</div>
+          <div>Acceso ilimitado al contenido</div>
+          <div>Certificación oficial</div>
+        </div>
+      </div>
+      <div class="modality-card">
+        <div class="mod-icon" data-ic="hammer"></div>
+        <h4>Talleres específicos</h4>
+        <div class="sub">Workshops especializados de fin de semana</div>
+        <div class="price">Desde $180.000 <span>/ por workshop</span></div>
+        <div class="feat-grid">
+          <div>Workshops de fin de semana</div>
+          <div>Técnicas especializadas</div>
+          <div>Ideal para complementar</div>
+          <div>Acceso completo al taller</div>
+          <div>Materiales incluidos</div>
+          <div>Certificación oficial</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-band dark">
+      <h2>¿Necesitas ayuda para elegir?</h2>
+      <p>Nuestro equipo está aquí para ayudarte a encontrar la modalidad perfecta para ti</p>
+      <div class="hero-actions">
+        <a href="#inscribete" class="btn btn-cream">Inscríbete ahora</a>
+        <a href="#contacto" class="btn btn-outline-light">Contactar un asesor</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RECURSOS ===================== -->
+<section id="recursos" style="background:var(--sand-100);">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><i data-ic="gem"></i> Recursos y materiales</span>
+      <h2>Todo lo que necesitas</h2>
+      <p>Proporcionamos herramientas profesionales y materiales de calidad para cada nivel</p>
+    </div>
+
+    <div class="resource-grid">
+      <div class="resource-card">
+        <div class="mod-icon" data-ic="wrench"></div>
+        <h4>Kit básico incluido</h4>
+        <div class="sub">Herramientas esenciales para comenzar tu práctica</div>
+        <ul class="topics">
+          <li>Alicates de punta y redondos</li>
+          <li>Cortadores de alambre</li>
+          <li>Agujas de enfilado</li>
+          <li>Tabla de trabajo portátil</li>
+          <li>Organizador de materiales</li>
+        </ul>
+        <div class="value-label">Valor del kit:</div>
+        <div class="value">$250.000</div>
+        <div class="value-note">Incluido sin costo adicional</div>
+      </div>
+      <div class="resource-card">
+        <div class="mod-icon" data-ic="package"></div>
+        <h4>Materiales por módulo</h4>
+        <div class="sub">Suministros frescos entregados según avances</div>
+        <ul class="topics">
+          <li>Hilos y cordones variados</li>
+          <li>Cuentas de diferentes materiales</li>
+          <li>Alambres de varios calibres</li>
+          <li>Piedras semipreciosas</li>
+          <li>Accesorios y cierres</li>
+        </ul>
+        <div class="value-label">Entregas programadas:</div>
+        <div class="desc" style="margin-top:4px;">6 por paquete · uno por cada módulo del programa</div>
+      </div>
+    </div>
+
+    <div class="guarantee">
+      <div class="guarantee-left">
+        <h3>Garantía de calidad RAIZA</h3>
+        <p>Todos nuestros materiales son seleccionados cuidadosamente para garantizar la mejor experiencia de aprendizaje y resultados profesionales.</p>
+        <ul>
+          <li>Herramientas de marcas reconocidas en joyería</li>
+          <li>Materiales certificados y seguros</li>
+          <li>Piedras y cuentas de proveedores de confianza</li>
+          <li>Garantía de reemplazo por defectos</li>
+        </ul>
+      </div>
+      <div class="guarantee-right">
+        <div class="seal">R</div>
+        <div class="cap">Sello de calidad RAIZA academy</div>
+        <div class="stat-pill"><strong>100%</strong><span>Satisfacción garantizada</span></div>
+        <div class="stat-pill"><strong>+500</strong><span>Artesanos formados</span></div>
+      </div>
+    </div>
+
+    <div class="cta-band">
+      <h2>¿Listo para trabajar con materiales profesionales?</h2>
+      <p>Inscríbete y recibe tu kit básico para comenzar desde el primer día</p>
+      <div class="hero-actions">
+        <a href="#inscribete" class="btn btn-coral">Inscríbete ahora</a>
+        <a href="#modalidades" class="btn btn-outline">Ver modalidades</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CERTIFICACION ===================== -->
+<section id="certificacion">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow"><i data-ic="graduation-cap"></i> Certificación y oportunidades</span>
+      <h2>Tu futuro profesional</h2>
+      <p>Obtén certificación oficial y descubre las oportunidades del mercado artesanal</p>
+    </div>
+
+    <div class="cert-card">
+      <div class="cert-icon" data-ic="award"></div>
+      <div>
+        <h3>Certificación oficial</h3>
+        <p>Al completar el programa recibes certificado avalado por la Asociación de Artesanos, válido para abrir tu propio negocio o trabajar en talleres especializados.</p>
+      </div>
+      <div class="cert-two">
+        <div class="cert-includes">
+          <div class="lbl">Incluye:</div>
+          <ul>
+            <li>Aval de la Asociación de Artesanos</li>
+            <li>Válido para abrir negocio propio</li>
+            <li>Reconocido en talleres especializados</li>
+            <li>Incluye número de registro único</li>
+            <li>Portafolio digital certificado</li>
+          </ul>
+        </div>
+        <div class="cert-badges">
+          <div class="badge-dark">Reconocimiento oficial</div>
+          <div class="badge-light">Asociación de artesanos</div>
+          <div class="note">Única academia con certificación reconocida a nivel nacional</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-head" style="margin-top:70px;">
+      <h2>Caminos profesionales</h2>
+      <p>Nuestros egresados encuentran su camino en diferentes áreas del mercado artesanal</p>
+    </div>
+
+    <div class="cta-band dark">
+      <h2>Comienza tu carrera profesional hoy</h2>
+      <p>Únete a nuestra red de artesanos certificados y construye el futuro que sueñas</p>
+      <div class="hero-actions">
+        <a href="#inscribete" class="btn btn-cream">Inscríbete ahora</a>
+        <a href="#plan" class="btn btn-outline-light">Ver plan de estudios</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== INSCRIBETE ===================== -->
+<section id="inscribete" style="background:var(--sand-100);">
+  <div class="wrap" style="max-width:640px;">
+    <div class="section-head">
+      <span class="eyebrow"><i data-ic="pencil-line"></i> Inscríbete</span>
+      <h2>Reserva tu cupo</h2>
+      <p>Completa tus datos y un asesor de RAIZA se pondrá en contacto contigo</p>
+    </div>
+    <form class="table-card" id="inscripcionForm" style="display:flex;flex-direction:column;gap:16px;">
+      <div>
+        <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:6px;">Nombre completo</label>
+        <input type="text" required style="width:100%;padding:12px 14px;border:1px solid var(--olive-300);border-radius:10px;font-size:0.95rem;">
+      </div>
+      <div>
+        <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:6px;">Correo electrónico</label>
+        <input type="email" required style="width:100%;padding:12px 14px;border:1px solid var(--olive-300);border-radius:10px;font-size:0.95rem;">
+      </div>
+      <div>
+        <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:6px;">Modalidad de interés</label>
+        <select style="width:100%;padding:12px 14px;border:1px solid var(--olive-300);border-radius:10px;font-size:0.95rem;">
+          <option>Presencial intensivo</option>
+          <option>Semipresencial</option>
+          <option>Online con envío</option>
+          <option>Talleres específicos</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-coral" style="justify-content:center;">Enviar inscripción</button>
+    </form>
+  </div>
+</section>
+
+<footer id="contacto">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">
+          <span class="brand-mark" style="width:40px;height:40px;">
+            <img src="raiza-icon.png" alt="RAIZA" class="brand-mark-img">
+          </span>
+          <div>
+            <strong style="display:block;font-family:'Fraunces',serif;color:var(--white);">RAIZA</strong>
+            <span style="font-size:0.7rem;color:var(--coral-400);font-weight:600;">ACADEMIA DE JOYERÍA</span>
+          </div>
+        </div>
+        <p class="foot-desc">Formación profesional en bisutería artesanal con certificación oficial.</p>
+      </div>
+      <div>
+        <h5>Enlaces</h5>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#plan">Plan de estudios</a></li>
+          <li><a href="#modalidades">Modalidades</a></li>
+          <li><a href="#recursos">Recursos</a></li>
+          <li><a href="#certificacion">Certificación</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contacto</h5>
+        <ul>
+          <li>info@raizabisuteria.com</li>
+          <li>+57 300 123 4567</li>
+          <li>Lunes a Viernes: 9:00 a.m. – 6:00 p.m.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">© 2026 RAIZA Academia de Joyería. Todos los derechos reservados.</div>
+  </div>
+</footer>
+
+<script src="icons.js"></script>
+<script src="sesion.js"></script>
+<script src="index.js"></script>
+
+</body>
+</html>
